@@ -3,6 +3,7 @@ a lru cache library
 
 go library
 
+```
 ➜  lru go version
 go version go1.5 linux/amd64
 ➜  lru go test -v lru.go lru_test.go
@@ -19,3 +20,4 @@ ok      command-line-arguments  0.003s
 PASS
 BenchmarkAdd-2   3000000               421 ns/op
 ok      command-line-arguments  1.695s
+```
