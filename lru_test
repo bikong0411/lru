@@ -1,0 +1,64 @@
+package lru
+
+import (
+        "testing"
+)
+
+func testEq(a, b []int) bool {
+        if a == nil && b == nil {
+                return true
+        }
+        if a == nil || b == nil {
+                return false
+        }
+        if len(a) != len(b) {
+                return false
+        }
+        for i := range a {
+                if a[i] != b[i] {
+                        return false
+                }
+        }
+        return true
+}
+
+func Test_Get(t *testing.T) {
+        l := NewLRUCache(2)
+        l.Put("sky", "SKY")
+        if l.Get("sky") != "SKY" {
+                t.Error("test get sky failed!!!")
+        } else {
+                t.Log("test get sky success")
+        }
+        l.Put("sky1", 2)
+        if l.Get("sky1") != 2 {
+                t.Error("test get sky1 failed!!!")
+        } else {
+                t.Log("test get sky1 success")
+        }
+        l.Put("sky2", []int{1, 2})
+        if testEq(l.Get("sky2").([]int), []int{1, 2}) {
+                t.Log("test get sky2 success")
+        } else {
+                t.Error("test get sky2 failed!!!")
+        }
+        if l.Get("sky") != -1 {
+                t.Error("test get sky failed!!!")
+        } else {
+                t.Log("test get sky success")
+        }
+
+        if l.Get("sky1") != 2 {
+                t.Error("test get sky1 failed!!!")
+        } else {
+                t.Log("test get sky1 success")
+        }
+}
+
+func BenchmarkAdd(b *testing.B) {
+        l := NewLRUCache(100)
+
+        for i := 0; i < b.N; i++ {
+                l.Put(i, i*i)
+        }
+}
